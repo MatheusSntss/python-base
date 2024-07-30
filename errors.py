@@ -2,15 +2,17 @@
 import os
 import sys
 
-if os.path.exists("names.txt"):
+#EAFP
+try: 
     names = open("names.txt").readlines()
-else:
-    print('Error: file "name.txt" not found')
+except FileNotFoundError as e:
+    print(f'{str(e)}')
     sys.exit(1)
-#LBYL - Look before you Leap
+    #TODO:usar retry
+    
 
-if len(names) >= 3:
+try:
     print(names[2])
-else:
+except:
     print("ERROR: Missing name in the list")
     sys.exit(1)
