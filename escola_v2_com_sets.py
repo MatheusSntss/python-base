@@ -15,18 +15,18 @@ sala2 = ["Joao","Antonio","Carlos","Maria"]
 atividade_ingles = ["Erik", "Maia","Joana","Carlos","Antonio"]
 atividade_musica = ["Erik", "Carlos","Maia"]
 
-atividades = [
-    ("Inglês",atividade_ingles), 
-    ("Música",atividade_musica),
-    ]
+atividades = {
+    "Inglês":atividade_ingles, 
+    "Música":atividade_musica,
+    }
 
 
 #Lista alunos em cada atividade por sala
-for nome_atividade, atividade in atividades:
+for nome_atividade, aluno_na_atividade in atividades.items():
     print(f"Alunos da atividade {nome_atividade}\n")
     print("-" * 30)
-    atividade_sala1 = set(sala1) & set(atividade)
-    atividade_sala2 = set(sala2).intersection(atividade)
+    atividade_sala1 = set(sala1) & set(aluno_na_atividade)
+    atividade_sala2 = set(sala2).intersection(aluno_na_atividade)
     print(f"Sala 1:{atividade_sala1}")
     print(f"Sala 2:{atividade_sala2}")
     print("-" * 30)
