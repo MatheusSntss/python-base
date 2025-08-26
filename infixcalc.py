@@ -15,10 +15,12 @@ uso:
 $ infixcalc.py sum 5 4
 9
 
+Os resultados serão salvos em logs `infixcal.log`
 """
 import sys
-import operator
-__version__ = "0.1.0"
+import os
+from datetime import datetime
+__version__ = "0.1.1"
 
 
 operacoes = ["sum","sub","mul","div"]
@@ -56,10 +58,19 @@ for num in nums:
 n1,n2 = numeros_validos
 
 if operacao == "sum":
-    print(n1 + n2)
+    resultado = n1 + n2
 elif operacao == "sub":
-    print(n1 - n2)
+    resultado = n1 - n2
 elif operacao == "mul":
-    print(n1 * n2)
+    resultado = n1 * n2
 elif operacao == "div":
-    print(n1 / n2)
+    resultado = n1 / n2
+
+path = os.curdir
+filepath = os.path.join(path,"infixcalc.log")
+timestamp = datetime.now()isoformat()
+user = os.getenv("USER","anonymous")
+with open(filepath,"a") as file_:
+    file_.write(f"{timestamp} - {user} - {operacao},{n1},{n2} = {resultado}\n")
+
+print(f"O resultado é: {resultado}")
