@@ -3,14 +3,21 @@
 import os
 import sys
 
-#LBYL
-if os.path.exists("names.txt"):
-    names = open("names.txt").readlines()
-else:
-    print("[Error] Files `names.txt` not found")
+#EAFP - Easy to ask Forgiveness than permission
 
-if len(names) >=3:
-    print(names[2])
+try:
+    names = open("names.txt").readlines()
+   
+except FileNotFoundError as e:
+    print(f"{str(e)}.")
+    sys.exit(1)
+    #TODO: Usar retry
 else:
+    print("Sucesso!!!")
+finally: 
+    print("Execute isso sempre")
+try:
+    print(names[2])
+except:
     print("[Error] Missing name in the list")
     sys.exit(1)
