@@ -19,7 +19,20 @@ Os resultados serão salvos em logs `infixcal.log`
 """
 import sys
 import os
-from datetime import datetime
+import logging
+
+logger = logging.getLogger("meu_logger")
+logger.setLevel(logging.DEBUG)
+
+console_handler = logging.StreamHandler() 
+console_handler.setLevel(logging.DEBUG)
+
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(formatter)
+
+logger.addHandler(console_handler)
+
+
 __version__ = "0.1.1"
 
 
@@ -66,11 +79,14 @@ elif operacao == "mul":
 elif operacao == "div":
     resultado = n1 / n2
 
+print(f"O resultado é: {resultado}")
+
 path = os.curdir
 filepath = os.path.join(path,"infixcalc.log")
 timestamp = datetime.now()isoformat()
 user = os.getenv("USER","anonymous")
-with open(filepath,"a") as file_:
-    file_.write(f"{timestamp} - {user} - {operacao},{n1},{n2} = {resultado}\n")
-
-print(f"O resultado é: {resultado}")
+try:
+    with open(filepath,"a") as file_:
+        file_.write(f"{timestamp} - {user} - {operacao},{n1},{n2} = {resultado}\n")
+except PermissionError as e:
+    logger.error("Você não tem permissão para criar o arquivo, %s",str(e))
