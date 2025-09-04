@@ -16,6 +16,22 @@ Execution:
 
 import os
 import sys
+import logging
+
+logger = logging.getLogger("meu_logger")
+logger.setLevel(logging.DEBUG)
+
+# Criando um handler para o console
+console_handler = logging.StreamHandler() #Manda pro console
+console_handler.setLevel(logging.INFO)
+
+# Formatando a saída
+formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
+console_handler.setFormatter(formatter)
+
+# Associando o handler ao logger
+logger.addHandler(console_handler)
+
 #Dunder
 __version__ = "0.1.3"
 __author__ = "Matheus Santos"
@@ -28,8 +44,16 @@ arguments = {
 }
 
 for arg in sys.argv[1:]:
-    # TODO Tratar ValueError
-    key,value = arg.split("=")
+    try:
+        key,value = arg.split("=")
+    except ValueError as e:
+        #TODO: usar Logging
+        logger.error(
+            "You need to use `=`, you passed %s, try --key=value: %s",
+            arg,
+            str(e)
+            )
+        sys.exit(1)                   
     key = key.lstrip("-").strip()
     value = value.strip()
     if key not in arguments:
@@ -51,6 +75,11 @@ msg = {
     "fr_FR":"Bonjour, Monde!"
 }
 
+try:
+    message = msg[current_language]
+except KeyError as e:
+    print(f"{e}")
+    print(f"Language is invalid, choose from: {list(msg.key())}")
 print(msg[current_language] * int(arguments["count"]))
 
 # Ordem Complexidade O(n)
