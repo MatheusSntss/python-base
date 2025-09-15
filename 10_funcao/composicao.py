@@ -8,8 +8,6 @@ names = [
     'Joca'
 ]
 
-def names_with_b(name):
-    return name[0].lower() == 'b'
 
-print(list(filter(names_with_b,names)))
+print(list(filter(lambda name: name[0].lower() == 'b',names)))
     
